@@ -1,0 +1,191 @@
+﻿@model PagedList.StaticPagedList<YvrCrimeData_Web.Models.CrimeListViewModel>
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "View Crime Data";
+}
+
+<div class="page-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+
+
+@using (Html.BeginForm("CrimeList", "Home", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse1">Search and  Filter Options</a>
+                    <i class="icon-chevron-up"></i>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="pwd">Crime Type:</label>
+                        <div class="col-sm-10">
+                            @*@Html.TextBox(name: "SearchByCrimeType", value: ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Crime Type" })*@
+                            @Html.ListBox("CrimeTypeList",
+                                          ViewData["CrimeTypeList"] as IEnumerable<SelectListItem>,
+                                          htmlAttributes: new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="pwd">Neighbourhood:</label>
+                        <div class="col-sm-10">
+                            @*Html.TextBox(name: "SearchByNeighbourhood", value: ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Neighbourhood" })*@
+                            @Html.ListBox("NeighbourhoodList",
+                                          ViewData["NeighbourhoodList"] as IEnumerable<SelectListItem>,
+                                          htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="pwd">Start Date:</label>
+                        <div class="col-sm-10">
+                            <div id="startdate" class="input-group date">
+                                @Html.TextBox(name: "DateStartAsString", value: ViewBag.DateStart as string, htmlAttributes: new { @class = "form-control dateSelector" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                            <script type="text/javascript">
+                                $('#startdate').datepicker({
+                                    startView: 2,
+                                    clearBtn: true,
+                                    orientation: "top right"
+                                });
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="pwd">End Date:</label>
+                        <div class="col-sm-10">
+                            <div id="enddate" class="input-group date">
+                                @Html.TextBox(name: "DateEndAsString", value: ViewBag.DateEnd as string, htmlAttributes: new { @class = "form-control dateSelector" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                            <script type="text/javascript">
+                                $('#enddate').datepicker({
+                                    startView: 2,
+                                    clearBtn: true,
+                                    orientation: "top right"
+                                });
+                            </script>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="pwd">Date:</label>
+                        <div class="col-sm-10">
+                            <div class="input-daterange input-group" id="datepicker">
+                                @Html.TextBox(name: "DateStartAsString", value: ViewBag.DateStart as string, htmlAttributes: new { @class = "input-sm form-control" })
+                                <span class="input-group-addon">to</span>
+                                @Html.TextBox(name: "DateEndAsString", value: ViewBag.DateEnd as string, htmlAttributes: new { @class = "input-sm form-control" })
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $('.input-daterange').datepicker({
+                                startView: 2,
+                                clearBtn: true,
+                                orientation: "top right"
+                            });
+                        </script>
+                    </div>
+                        -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Data List
+            </h4>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover table-striped table-responsive table-bordered">
+                <tr>
+                    <th>
+                        @*Html.DisplayNameFor(model => model.OffenceDate)*@
+                        @Html.ActionLink("Offence Date", "CrimeList", new {
+                               sortOrder = ViewBag.DateSortParm,
+                               currentFilter = ViewBag.CurrentFilter,
+                               searchString = string.Empty,
+                               page = 1,
+                               dateStartAsString = ViewBag.DateStart,
+                               dateEndAsString = ViewBag.DateEnd
+                        })
+                    </th>
+                    <th>
+                        @*Html.DisplayNameFor(model => model.CrimeTypeName)*@
+                        @Html.ActionLink("Type of Crime", "CrimeList", new {
+                               sortOrder = ViewBag.CrimeTypeSortParm,
+                               currentFilter = ViewBag.CurrentFilter,
+                               searchString = string.Empty,
+                               page = 1,
+                               dateStartAsString = ViewBag.DateStart,
+                               dateEndAsString = ViewBag.DateEnd
+                        })
+                    </th>
+                    <th>
+                        @*Html.DisplayNameFor(model => model.NeighbourhoodName)*@
+                        @Html.ActionLink("Neighbourhood", "CrimeList", new {
+                               sortOrder = ViewBag.NeighbourhoodSortParam,
+                               currentFilter = ViewBag.CurrentFilter,
+                               searchString = string.Empty,
+                               page = 1,
+                               dateStartAsString = ViewBag.DateStart,
+                               dateEndAsString = ViewBag.DateEnd
+                        })
+                    </th>
+                    <th>Hundred Block</th>
+                    <!--<th>@*Html.DisplayNameFor(model => model.HundredBlock)*@</th>-->
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.OffenceDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CrimeTypeName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NeighbourhoodName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HundredBlock)</td>
+                        <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="panel-footer">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("CrimeList",
+                    new {
+                        page,
+                        sortOrder = ViewBag.CurrentSort,
+                        currentFilter = ViewBag.CurrentFilter,
+                        dateStartAsString = ViewBag.DateStart,
+                        dateEndAsString = ViewBag.DateEnd
+                    }))
+        </div>
+    </div>
+</div>
+
+
+

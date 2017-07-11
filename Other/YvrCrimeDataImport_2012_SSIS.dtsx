@@ -1,0 +1,880 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/8/2017 5:02:21 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="GREG-PC"
+  DTS:CreatorName="GREG-PC\greg"
+  DTS:Description="SSIS Package Description"
+  DTS:DTSID="{2FA2029E-AFC3-4447-A8B4-50F16DBC4CA2}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.2164.0"
+  DTS:LocaleID="1033"
+  DTS:MaxErrorCount="0"
+  DTS:ObjectName="YvrCrimeDataImport_2003_SSIS"
+  DTS:ProtectionLevel="0"
+  DTS:VersionGUID="{19C928EF-9A23-410F-AE32-26D102EC0E80}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33F3C0C4-A830-46E9-A603-6D7A62772ABB}"
+      DTS:ObjectName="DestinationConnectionOLEDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=GREG-PC;Initial Catalog=YvrCrimeData;Provider=SQLOLEDB;Integrated Security=SSPI;Auto Translate=false;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SourceConnectionExcel]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{FD31B939-452F-4A85-A9C4-F0713B88FCAB}"
+      DTS:ObjectName="SourceConnectionExcel">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\Temp\InternalSource\YvrCrimeData\Other\CrimeData_2012.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task 1"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{22DC1139-A159-4FE6-96B3-DBAA5D43484D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task 1"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          defaultBufferSize="3145728"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task 1\Data Conversion 0 - 0"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion 0 - 0"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[CRIMETYPEID]"
+                      cachedDataType="r8"
+                      cachedName="CRIMETYPEID"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[CRIMETYPEID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[YEAR]"
+                      cachedDataType="r8"
+                      cachedName="YEAR"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[YEAR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[MONTH]"
+                      cachedDataType="r8"
+                      cachedName="MONTH"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MONTH]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[DAY]"
+                      cachedDataType="r8"
+                      cachedName="DAY"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[DAY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[HOUR]"
+                      cachedDataType="r8"
+                      cachedName="HOUR"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HOUR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[MINUTE]"
+                      cachedDataType="r8"
+                      cachedName="MINUTE"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MINUTE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[NEIGHBOURHOODID]"
+                      cachedDataType="r8"
+                      cachedName="NEIGHBOURHOODID"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[NEIGHBOURHOODID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[X]"
+                      cachedDataType="r8"
+                      cachedName="X"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[X]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input].Columns[Y]"
+                      cachedDataType="r8"
+                      cachedName="Y"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[Y]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[CRIMETYPEID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[CRIMETYPEID]"
+                      name="CRIMETYPEID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[CRIMETYPEID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[YEAR]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[YEAR]"
+                      name="YEAR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[YEAR]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MONTH]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MONTH]"
+                      name="MONTH"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MONTH]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[DAY]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[DAY]"
+                      name="DAY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[DAY]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[HOUR]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[HOUR]"
+                      name="HOUR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HOUR]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MINUTE]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MINUTE]"
+                      name="MINUTE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MINUTE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[NEIGHBOURHOODID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[NEIGHBOURHOODID]"
+                      name="NEIGHBOURHOODID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[NEIGHBOURHOODID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[X]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[X]"
+                      name="X"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[X]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[Y]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[Y]"
+                      name="Y"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[Y]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Destination - Crime"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination - Crime"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Crime]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Destination - Crime.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[CRIMETYPEID]"
+                      cachedDataType="i4"
+                      cachedName="CRIMETYPEID"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[CrimeTypeID]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[CRIMETYPEID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[YEAR]"
+                      cachedDataType="i4"
+                      cachedName="YEAR"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Year]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[YEAR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[MONTH]"
+                      cachedDataType="i4"
+                      cachedName="MONTH"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Month]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MONTH]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[DAY]"
+                      cachedDataType="i4"
+                      cachedName="DAY"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Day]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[DAY]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[HOUR]"
+                      cachedDataType="i4"
+                      cachedName="HOUR"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Hour]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[HOUR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[MINUTE]"
+                      cachedDataType="i4"
+                      cachedName="MINUTE"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Minute]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MINUTE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[HUNDRED_BLOCK]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="HUNDRED_BLOCK"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[HundredBlock]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HUNDRED_BLOCK]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[NEIGHBOURHOODID]"
+                      cachedDataType="i4"
+                      cachedName="NEIGHBOURHOODID"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[NeighbourhoodID]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[NEIGHBOURHOODID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[X]"
+                      cachedDataType="numeric"
+                      cachedName="X"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[XCoordinate]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[X]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].Columns[Y]"
+                      cachedDataType="numeric"
+                      cachedName="Y"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[YCoordinate]"
+                      lineageId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[Y]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[ID]"
+                      dataType="i4"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[CrimeTypeID]"
+                      dataType="i4"
+                      name="CrimeTypeID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[OffenceDate]"
+                      dataType="dbTimeStamp"
+                      name="OffenceDate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Month]"
+                      dataType="i4"
+                      name="Month" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Day]"
+                      dataType="i4"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Hour]"
+                      dataType="i4"
+                      name="Hour" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[Minute]"
+                      dataType="i4"
+                      name="Minute" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[HundredBlock]"
+                      dataType="wstr"
+                      length="80"
+                      name="HundredBlock" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[NeighbourhoodID]"
+                      dataType="i4"
+                      name="NeighbourhoodID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[XCoordinate]"
+                      dataType="numeric"
+                      name="XCoordinate"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input].ExternalColumns[YCoordinate]"
+                      dataType="numeric"
+                      name="YCoordinate"
+                      precision="18"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Destination - Crime.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Destination - Crime.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Destination - Crime.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Destination - Crime.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Source - Sheet1$"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Source - Sheet1$"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Source - Sheet1$.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SourceConnectionExcel]"
+                  connectionManagerRefId="Package.ConnectionManagers[SourceConnectionExcel]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[TYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[TYPE]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[TYPE]"
+                      name="TYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[CRIMETYPEID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[CRIMETYPEID]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[CRIMETYPEID]"
+                      name="CRIMETYPEID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[YEAR]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[YEAR]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[YEAR]"
+                      name="YEAR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MONTH]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[MONTH]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MONTH]"
+                      name="MONTH"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[DAY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[DAY]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[DAY]"
+                      name="DAY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HOUR]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[HOUR]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HOUR]"
+                      name="HOUR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MINUTE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[MINUTE]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[MINUTE]"
+                      name="MINUTE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HUNDRED_BLOCK]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[HUNDRED_BLOCK]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[HUNDRED_BLOCK]"
+                      name="HUNDRED_BLOCK"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[NEIGHBOURHOOD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[NEIGHBOURHOOD]"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[NEIGHBOURHOOD]"
+                      name="NEIGHBOURHOOD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[NEIGHBOURHOODID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[NEIGHBOURHOODID]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[NEIGHBOURHOODID]"
+                      name="NEIGHBOURHOODID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[X]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[X]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[X]"
+                      name="X"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[Y]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[Y]"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].Columns[Y]"
+                      name="Y"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[CRIMETYPEID]"
+                      dataType="r8"
+                      name="CRIMETYPEID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[YEAR]"
+                      dataType="r8"
+                      name="YEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[MONTH]"
+                      dataType="r8"
+                      name="MONTH" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[DAY]"
+                      dataType="r8"
+                      name="DAY" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[HOUR]"
+                      dataType="r8"
+                      name="HOUR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[MINUTE]"
+                      dataType="r8"
+                      name="MINUTE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[HUNDRED_BLOCK]"
+                      dataType="wstr"
+                      length="255"
+                      name="HUNDRED_BLOCK" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[NEIGHBOURHOOD]"
+                      dataType="wstr"
+                      length="255"
+                      name="NEIGHBOURHOOD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[NEIGHBOURHOODID]"
+                      dataType="r8"
+                      name="NEIGHBOURHOODID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[X]"
+                      dataType="r8"
+                      name="X" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output].ExternalColumns[Y]"
+                      dataType="r8"
+                      name="Y" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[TYPE]"
+                      name="TYPE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[CRIMETYPEID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[CRIMETYPEID]"
+                      name="CRIMETYPEID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[YEAR]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[YEAR]"
+                      name="YEAR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[MONTH]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[MONTH]"
+                      name="MONTH" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[DAY]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[DAY]"
+                      name="DAY" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[HOUR]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[HOUR]"
+                      name="HOUR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[MINUTE]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[MINUTE]"
+                      name="MINUTE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[HUNDRED_BLOCK]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[HUNDRED_BLOCK]"
+                      name="HUNDRED_BLOCK" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[NEIGHBOURHOOD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[NEIGHBOURHOOD]"
+                      name="NEIGHBOURHOOD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[NEIGHBOURHOODID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[NEIGHBOURHOODID]"
+                      name="NEIGHBOURHOODID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[X]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[X]"
+                      name="X" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[Y]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[Y]"
+                      name="Y" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task 1.Paths[Data Conversion Output]"
+              endId="Package\Data Flow Task 1\Destination - Crime.Inputs[Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Data Flow Task 1\Data Conversion 0 - 0.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Data Flow Task 1.Paths[Excel Source Output]"
+              endId="Package\Data Flow Task 1\Data Conversion 0 - 0.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Task 1\Source - Sheet1$.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+</DTS:Executable>
