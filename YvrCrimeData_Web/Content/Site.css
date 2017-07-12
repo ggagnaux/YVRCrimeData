@@ -46,4 +46,12 @@ table,
         white-space: nowrap;
         vertical-align: middle;
     }
+
+    .row {
+        margin-left: 0px;
+    }
+
+    label {
+        font-weight: normal;
+    }
 }

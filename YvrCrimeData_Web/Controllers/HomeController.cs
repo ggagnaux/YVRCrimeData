@@ -6,6 +6,7 @@ using YvrCrimeData_Web.Models;
 using PagedList;
 using YvrCrimeData_Web.DAL.Repositories;
 using YvrCrimeData_Web.DAL.Interfaces;
+using YvrCrimeData_Web.Utilities;
 
 namespace YvrCrimeData_Web.Controllers
 {
@@ -59,23 +60,25 @@ namespace YvrCrimeData_Web.Controllers
                                        string searchString, 
                                        int? page,
                                        string dateStartAsString,
-                                       string dateEndAsString)
+                                       string dateEndAsString,
+                                       string[] selectedCrimeTypeList,
+                                       string[] selectedNeighbourhoodList)
+                                       //int[] selectedCrimeTypeList,
+                                       //int[] selectedNeighbourhoodList)
         {
             try
             {
+
+                var theQuery = Request.QueryString;
+
+                string[] tempArray;
+
                 ViewBag.Message = "View Crimes";
 
                 ViewBag.CurrentSort = sortOrder;
                 ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "date_desc" : ""; 
                 ViewBag.CrimeTypeSortParm = sortOrder == "crimetype_desc" ? "crimetype" : "crimetype_desc"; 
                 ViewBag.NeighbourhoodSortParam = sortOrder == "neighbourhood_desc" ? "neighbourhood" : "neighbourhood_desc";
-
-                string selectedCrimeTypeList = Request.QueryString["CrimeTypeList"];
-                string selectedNeighbourhoodList = Request.QueryString["NeighbourhoodList"];
-
-                BuildCrimeTypeList(selectedCrimeTypeList);
-                BuildNeighbourhoodList(selectedNeighbourhoodList);
-
 
                 if (searchString != null)
                 {
@@ -101,20 +104,46 @@ namespace YvrCrimeData_Web.Controllers
                 crimes = crimes.Where(c => c.OffenceDate >= dateStart && c.OffenceDate <= dateEnd);
 
                 // Filter by CrimeType
+                //string selectedCrimeTypeList = Request?.Form["CrimeTypeList"]?.Length > 0 ? Request.Form["CrimeTypeList"] : string.Empty;
                 if (selectedCrimeTypeList?.Length > 0)
                 {
                     crimes = crimes.Where(c => selectedCrimeTypeList.Contains(c.CrimeTypeID.ToString()));
+
+                    //tempArray = selectedCrimeTypeList.Split(',');
+                    //crimes = crimes.Where(c => tempArray.Contains(c.CrimeTypeID.ToString()));
+
+
+                    //List<int> t = selectedCrimeTypeList.ToList();
+                    //crimes = crimes.Where(c => t.Contains(c.CrimeTypeID.Value));
+                }
+                else
+                {
+                    //selectedCrimeTypeList = string.Empty;
+                    selectedCrimeTypeList = new string[1];
+                    //selectedCrimeTypeList = new int[1];
                 }
 
                 // Filter by Neighbourhood
+                //var selectedNeighbourhoodList = Request.Form["NeighbourhoodList"]?.Length > 0 ? Request.Form["NeighbourhoodList"] : string.Empty;
                 if (selectedNeighbourhoodList?.Length > 0)
                 {
                     crimes = crimes.Where(c => selectedNeighbourhoodList.Contains(c.NeighbourhoodID.ToString()));
+
+                    //tempArray = selectedNeighbourhoodList.Split(',');
+                    //crimes = crimes.Where(c => tempArray.Contains(c.NeighbourhoodID.ToString()));
+
+                    //List<int> t = selectedNeighbourhoodList.ToList();
+                    //crimes = crimes.Where(c => t.Contains(c.NeighbourhoodID.Value));
+                }
+                else
+                {
+                    //selectedNeighbourhoodList = string.Empty;
+                    selectedNeighbourhoodList = new string[1];
+                    //selectedNeighbourhoodList = new int[1];
                 }
 
                 // Set sort order
                 crimes = SetSortOrder(crimes, sortOrder);
-
 
 
                 int pageNumber = (page ?? 1);
@@ -123,7 +152,61 @@ namespace YvrCrimeData_Web.Controllers
 
                 int totalRecordCount = crimes.Count();
 
-                // Transform Data
+                //
+                // Build the ViewModel
+                //
+
+                var neighbourhoods = _neighbourhoodRepository.GetAll().Select(x => new NeighbourhoodViewModel()
+                {
+                    Id = x.ID,
+                    Name = x.Name,
+                    Checked = selectedNeighbourhoodList.Contains(x.ID.ToString())
+                });
+                CrimeListViewModel.Neighbourhoods = neighbourhoods.ToList();
+
+                var offences = _crimeTypeRepository.GetAll().Select(x => new OffenceViewModel()
+                {
+                    Id = x.ID,
+                    Name = x.Type,
+                    Checked = selectedCrimeTypeList.Contains(x.ID.ToString())
+                });
+                CrimeListViewModel.Offences = offences.ToList();
+
+                //var selectedNeighbourhoodsArray = selectedNeighbourhoodList.Split(',');
+                //var neighbourhoods = _neighbourhoodRepository.GetAll().Select(x => new NeighbourhoodViewModel()
+                //{
+                //    Id = x.ID,
+                //    Name = x.Name,
+                //    Checked = selectedNeighbourhoodsArray.Contains(x.ID.ToString())
+                //});
+                //CrimeListViewModel.Neighbourhoods = neighbourhoods.ToList();
+
+                //var selectedCrimesArray = selectedCrimeTypeList.Split(',');
+                //var offences = _crimeTypeRepository.GetAll().Select(x => new OffenceViewModel()
+                //{
+                //    Id = x.ID,
+                //    Name = x.Type,
+                //    Checked = selectedCrimesArray.Contains(x.ID.ToString())
+                //});
+                //CrimeListViewModel.Offences = offences.ToList();
+
+                //var selectedNeighbourhoods = selectedNeighbourhoodList.ToList();
+                //var neighbourhoods = _neighbourhoodRepository.GetAll().Select(x => new NeighbourhoodViewModel()
+                //{
+                //    Id = x.ID,
+                //    Name = x.Name,
+                //    Checked = selectedNeighbourhoods.Contains(x.ID)
+                //});
+                //CrimeListViewModel.Neighbourhoods = neighbourhoods.ToList();
+
+                //var selectedCrimes = selectedCrimeTypeList.ToList();
+                //var offences = _crimeTypeRepository.GetAll().Select(x => new OffenceViewModel()
+                //{
+                //    Id = x.ID,
+                //    Name = x.Type,
+                //    Checked = selectedCrimes.Contains(x.ID)
+                //});
+                //CrimeListViewModel.Offences = offences.ToList();
 
                 var items = crimes.ToList().Select(x => new CrimeListViewModel()
                 {
@@ -135,7 +218,7 @@ namespace YvrCrimeData_Web.Controllers
                     NeighbourhoodName = x.Neighbourhood.Name,
                     OffenceDate = x.OffenceDate,
                     XCoordinate = x.XCoordinate,
-                    YCoordinate = x.YCoordinate
+                    YCoordinate = x.YCoordinate,
                 });
 
                 if (totalRecordCount < skip)
@@ -147,7 +230,8 @@ namespace YvrCrimeData_Web.Controllers
                     take = totalRecordCount;
                 }
 
-                var subset = items.ToList().Skip(skip).Take(take);
+                //var subset = items.ToList().Skip(skip).Take(take);
+                var subset = items.Skip(skip).Take(take);
                 var staticPagedList = new StaticPagedList<CrimeListViewModel>(
                                                         subset, pageNumber, PageSize, totalRecordCount);
 
@@ -244,36 +328,6 @@ namespace YvrCrimeData_Web.Controllers
 
             return crimes;
         }
-
-
-        private void BuildCrimeTypeList(string selectedIds)
-        {
-            var list = _crimeTypeRepository.GetAll().ToList().Select(x => new SelectListItem()
-            {
-                Selected = !string.IsNullOrEmpty(selectedIds) ? 
-                                selectedIds.Split(',').Contains(x.ID.ToString()) : 
-                                false,
-                Value = x.ID.ToString(),
-                Text = x.Type
-            }).ToList();
-
-            ViewData.Add("CrimeTypeList", list);
-        }
-
-        private void BuildNeighbourhoodList(string selectedIds)
-        {
-            var list = _neighbourhoodRepository.GetAll().ToList().Select(x => new SelectListItem()
-            {
-                Selected = !string.IsNullOrEmpty(selectedIds) ?
-                                selectedIds.Split(',').Contains(x.ID.ToString()) :
-                                false,
-                Value = x.ID.ToString(),
-                Text = x.Name
-            }).ToList();
-
-            ViewData.Add("NeighbourhoodList", list);
-        }
-
 
         // Move to library
         private string MakeDateTimeString(int year, 
