@@ -39,6 +39,10 @@ table,
     font-size: 14px;
 }
 
+.panel-title {
+    font-weight: bold;
+}
+
 @media screen {
     .input-group-addon, .input-group-btn {
 

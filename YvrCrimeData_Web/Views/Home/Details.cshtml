@@ -1,97 +1,171 @@
-﻿@model YvrCrimeData_Web.Models.Crime
+﻿<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZXUc-5BHaSILmHjk-tFHavHyy5rEiaQo&sensor=true"></script>
 
-@{
-    ViewBag.Title = "Details";
+@model CrimeDetailViewModel
+@using YvrCrimeData_Web.ViewModels;
+
+
+<style>
+    #map_canvas img {
+        max-width: none;
+    }
+</style>
+
+<!-- This css is to give a nice big popup "info window" when a marker is clicked on the map -->
+<style>
+    .infoDiv {
+        height: 200px;
+        width: 300px;
+        -webkit-user-select: none;
+        background-color: white;
+    }
+</style>
+
+
+
+<!-- Enclose the Javascript in a "section" so that it is rendered in the correct order after scripts have been loaded etc -->
+@section scripts {
+    <section class="scripts">
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                initMap();
+            });
+
+            // Where all the fun happens
+            function initMap() {
+
+                // Google has tweaked their interface somewhat - this tells the api to use that new UI
+                google.maps.visualRefresh = true;
+                var location = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
+
+                // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
+                var mapOptions = {
+                    zoom: 15,
+                    center: location,
+                    mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP,
+                    styles: [{
+                        "elementType": "geometry", "stylers": [{ "hue": "#ff4400" }, { "saturation": -68 },
+                        { "lightness": -4 }, { "gamma": 0.72 }]
+                    }, { "featureType": "road", "elementType": "labels.icon" }, {
+                        "featureType": "landscape.man_made", "elementType": "geometry", "stylers":
+                            [{ "hue": "#0077ff" }, { "gamma": 3.1 }]
+                    }, { "featureType": "water", "stylers": [{ "hue": "#00ccff" }, { "gamma": 0.44 }, { "saturation": -33 }] }, {
+                        "featureType": "poi.park", "stylers":
+                            [{ "hue": "#44ff00" }, { "saturation": -23 }]
+                    }, {
+                        "featureType": "water", "elementType": "labels.text.fill", "stylers": [{ "hue": "#007fff" }, { "gamma": 0.77 }, { "saturation": 65 },
+                        { "lightness": 99 }]
+                    }, {
+                        "featureType": "water", "elementType": "labels.text.stroke", "stylers": [{ "gamma": 0.11 }, { "weight": 5.6 }, { "saturation": 99 },
+                        { "hue": "#0091ff" }, { "lightness": -86 }]
+                    }, {
+                        "featureType": "transit.line", "elementType": "geometry", "stylers": [{ "lightness": -48 }, { "hue": "#ff5e00" }, { "gamma": 1.2 },
+                        { "saturation": -23 }]
+                    }, {
+                        "featureType": "transit", "elementType": "labels.text.stroke", "stylers": [{ "saturation": -64 }, { "hue": "#ff9100" }, { "lightness": 16 },
+                        { "gamma": 0.47 }, { "weight": 2.7 }]
+                    }]
+                };
+
+                // This makes the div with id "map_canvas" a google map
+                var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                // a sample list of JSON encoded data of places to visit in Tunisia
+                // you can either make up a JSON list server side, or call it from a controller using JSONResult
+                //var data = [
+                //          { "Id": 1, "PlaceName": "Zaghouan", "GeoLong": "36.401081", "GeoLat": "10.16596" },
+                //          { "Id": 2, "PlaceName": "Hammamet ", "GeoLong": "36.4", "GeoLat": "10.616667" },
+                //          { "Id": 3, "PlaceName": "Sousse", "GeoLong": "35.8329809", "GeoLat": "10.63875" },
+                //          { "Id": 4, "PlaceName": "Sfax", "GeoLong": "34.745159", "GeoLat": "10.7613" }
+                //       ];
+
+                // a sample list of JSON encoded data of places to visit in Tunisia
+                // you can either make up a JSON list server side, or call it from a controller using JSONResult
+                var data = [
+                          { "Id": 1, "PlaceName": "@Model.Crime.Neighbourhood.Name", "GeoLong": "@Model.Longitude", "GeoLat": "@Model.Latitude" }
+                       ];
+
+
+
+
+                $.each(data, function (i, item) {
+                    var marker = new google.maps.Marker({
+                        //'position': new google.maps.LatLng(item.GeoLong, item.GeoLat),
+                        //'map': map,
+                        //'title': item.PlaceName
+                        'position': location,
+                        'map': map,
+                        'title': '@Model.Crime.Neighbourhood.Name'
+                    });
+
+                    // Make the marker-pin blue!
+                    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+                    //marker.setIcon('/Content/MapMarker.png');
+
+                    //// put in some information about each json object - in this case, the opening hours.
+                    //var infowindow = new google.maps.InfoWindow({
+                    //    //content: "<div class='infoDiv'><h2>" + item.PlaceName + "</div></div>"
+                    //    content: "<div class='infoDiv'><h2>@Model.Crime.Neighbourhood.Name</div></div>"
+                    //});
+
+                    //// finally hook up an "OnClick" listener to the map so it pops up out info-window when the marker-pin is clicked!
+                    //google.maps.event.addListener(marker, 'click', function () {
+                    //    infowindow.open(map, marker);
+                    //});
+
+                })
+            }
+        </script>
+    </section>
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Crime</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CrimeType.Type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CrimeType.Type)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Neighbourhood.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Neighbourhood.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Year)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Month)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Month)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Day)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Day)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Hour)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Hour)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Minute)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Minute)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HundredBlock)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HundredBlock)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.XCoordinate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.XCoordinate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YCoordinate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YCoordinate)
-        </dd>
-
-    </dl>
+<div class="page-header">
+    <h2>@Model.PageHeading</h2>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    @Model.LabelDictionary["OutputSectionTitle"]
+                </div>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.Crime.CrimeType.Type)</dt>
+                    <dd>@Html.DisplayFor(model => model.Crime.CrimeType.Type)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.Crime.Neighbourhood.Name)</dt>
+                    <dd>@Html.DisplayFor(model => model.Crime.Neighbourhood.Name)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.Crime.OffenceDate)</dt>
+                    <dd>@Html.DisplayFor(model => model.Crime.OffenceDate)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.Crime.HundredBlock)</dt>
+                    <dd>@Html.DisplayFor(model => model.Crime.HundredBlock)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.Latitude)</dt>
+                    <dd>@Html.DisplayFor(model => model.Latitude)</dd>
+                    <dt>@Html.DisplayNameFor(model => model.Longitude)</dt>
+                    <dd>@Html.DisplayFor(model => model.Longitude)</dd>
+                </dl>
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <a href="@Url.Action("Search", "Home")" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                            &nbsp;Back 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- This is the div that will contain the Google Map -->
+                <div id="map_canvas" style="height: 550px;"></div>
+            </div>
+        </div>
+    </div>
+

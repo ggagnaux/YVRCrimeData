@@ -1,0 +1,287 @@
+﻿@model SearchViewModel
+@using YvrCrimeData_Web.ViewModels;
+@using PagedList.Mvc;
+
+<div class="page-header">
+    <h2>@Model.PageHeading</h2>
+</div>
+
+@using (Html.BeginForm(actionName: "Search", 
+                       controllerName: "Home", 
+                       method: FormMethod.Post, 
+                       htmlAttributes: new { @class = "form-horizontal" }))
+{
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    @Model.LabelDictionary["SearchAndFilterOptions"]
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button id="OpenClosePanel" type="button" class="btn btn-info btn-xs" title="Toggle form visibility">
+                                <i id="ShowHideFormIcon" class="fa fa-chevron-down fa-fw"></i>
+                            </button>
+                            @Html.HiddenFor(model => model.FormVisibility)
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('#OpenClosePanel').tooltip();
+                                    @if (@Model.FormVisibility)
+                                    {
+                                        @:$('#collapse1').collapse('show');
+                                        @:$('#ShowHideFormIcon').addClass('fa-chevron-up').removeClass('fa-chevron-down');
+                                    }
+                                    else
+                                    {
+                                        @:$('#collapse1').collapse('hide');
+                                        @:$('#ShowHideFormIcon').addClass('fa-chevron-down').removeClass('fa-chevron-up');
+                                    }
+                                });
+                            </script>
+
+                            <script type="text/javascript">
+                                $('#OpenClosePanel').click(function () {
+                                    if ($('#collapse1').is(':visible')) {
+                                        $('#collapse1').collapse('hide');
+                                        $('#FormVisibility').val("False");
+                                        $('#ShowHideFormIcon').addClass('fa-chevron-down').removeClass('fa-chevron-up');
+                                    } else {
+                                        $('#collapse1').collapse('show');
+                                        $('#FormVisibility').val("True");
+                                        $('#ShowHideFormIcon').addClass('fa-chevron-up').removeClass('fa-chevron-down');
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>@Model.LabelDictionary["OffenceTypes"]</strong></div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="table">
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.Offences.Count; i++)
+                                        {
+                                            <div class="col-sm-5 col-sm-offset-1">
+                                                <div style="cursor: pointer;">
+                                                    @Html.HiddenFor(x => Model.Offences[i].Id)
+                                                    @Html.CheckBoxFor(x => Model.Offences[i].Selected)
+                                                    @Html.LabelFor(x => Model.Offences[i].Selected, Model.Offences[i].Name)
+                                                </div>
+                                            </div>
+                                        }
+                                    </div> <!-- row -->
+                                </div> <!-- table -->
+                            </div> <!-- form-group -->
+                        </div> <!-- panel-body -->
+                    </div> <!-- panel panel-default -->
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>@Model.LabelDictionary["Neighbourhoods"]</strong></div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="table">
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.Neighbourhoods.Count; i++)
+                                        {
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <div style="cursor: pointer;">
+                                                    @Html.HiddenFor(x => Model.Neighbourhoods[i].Id)
+                                                    @Html.CheckBoxFor(x => Model.Neighbourhoods[i].Selected)
+                                                    @Html.LabelFor(x => Model.Neighbourhoods[i].Selected, Model.Neighbourhoods[i].Name)
+                                                </div>
+                                            </div>
+                                        }
+                                    </div> <!-- row -->
+                                </div> <!-- table -->
+                            </div> <!-- form-group -->
+                        </div> <!-- panel-body -->
+                    </div> <!-- panel panel-default -->
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong>@Model.LabelDictionary["DateRange"]</strong></div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                    <div id="startdate" class="input-group date">
+                                        @Html.TextBoxFor(model => model.StartDate, new { @Value = Model.StartDate.ToShortDateString(), @class = "form-control dateSelector" })
+                                        @*@Html.TextBox(name: "StartDate", 
+                                                      value: Model.StartDate.ToShortDateString(), 
+                                                      htmlAttributes: new { @class = "form-control dateSelector" })*@
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    </div>
+                                    <script type = "text/javascript">
+                                        $('#startdate').datepicker({
+                                            startView: 2,
+                                            clearBtn: true,
+                                            orientation: "auto"
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EndDate, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                    <div id = "enddate" class="input-group date">
+                                        @Html.TextBox(name: "EndDate", 
+                                                      value: Model.EndDate.ToShortDateString(), 
+                                                       htmlAttributes: new { @class = "form-control dateSelector" })
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    </div>
+                                    <script type = "text/javascript">
+                                        $('#enddate').datepicker({
+                                            startView: 2,
+                                            clearBtn: true,
+                                            orientation: "auto"
+                                        });
+                                    </script>
+                                </div> <!-- table -->
+                            </div> <!-- form-group -->
+                        </div> <!-- panel-body -->
+                    </div> <!-- panel panel-default -->
+
+                    <br />
+
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <button type = "submit" class="btn btn-primary btn-sm">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="panel-group">
+
+    @if (Model.Items.TotalItemCount > 0)
+    {
+        @:<div class="panel panel-success">
+    }
+    else
+    {
+        @:<div class="panel panel-danger">
+    }
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                @Model.LabelDictionary["OutputSectionTitle"]
+                <span class="pull-right">@Model.LabelDictionary["RecordsFound"]</span>
+            </h4>
+        </div>
+
+        @if (Model.Items.TotalItemCount > 0)
+        {
+            <div class="panel-body">
+                <table class="table table-hover table-striped table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                @{
+                                    var sortBy = YvrCrimeData_Web.ViewModels.SearchViewModel.SortByEnum.Date;
+                                    var sortOrder = Model.SortOrder == SearchViewModel.SortOrderEnum.Ascending ?
+                                                                        SearchViewModel.SortOrderEnum.Descending :
+                                                                        SearchViewModel.SortOrderEnum.Ascending;
+                                    @Html.ActionLink(linkText: "Offence Date/Time",
+                                            actionName: "Search",
+                                            routeValues: new
+                                            {
+                                                page = 1,
+                                                StartDate = Model.StartDate,
+                                                EndDate = Model.EndDate,
+                                                SortOrder = sortOrder,
+                                                SortBy = sortBy,
+                                                Offences = Model.Offences,
+                                                Neighbourhoods = Model.Neighbourhoods
+                                            });
+                                }
+                            </th>
+
+                            <th>
+                                @{
+                                    sortBy = YvrCrimeData_Web.ViewModels.SearchViewModel.SortByEnum.Offence;
+                                    sortOrder = Model.SortOrder == SearchViewModel.SortOrderEnum.Ascending ?
+                                                                        SearchViewModel.SortOrderEnum.Descending :
+                                                                        SearchViewModel.SortOrderEnum.Ascending;
+                                    @Html.ActionLink(linkText: "Type of Crime",
+                                                     actionName: "Search",
+                                                     routeValues: new
+                                                     {
+                                                         page = 1,
+                                                         StartDate = Model.StartDate,
+                                                         EndDate = Model.EndDate,
+                                                         SortOrder = sortOrder,
+                                                         SortBy = sortBy,
+                                                         Offences = Model.Offences,
+                                                         Neighbourhoods = Model.Neighbourhoods
+                                                     });
+                                }
+                            </th>
+
+                            <th>
+                                @{
+                                    sortBy = YvrCrimeData_Web.ViewModels.SearchViewModel.SortByEnum.Neighbourhood;
+                                    sortOrder = Model.SortOrder == SearchViewModel.SortOrderEnum.Ascending ?
+                                                                        SearchViewModel.SortOrderEnum.Descending :
+                                                                        SearchViewModel.SortOrderEnum.Ascending;
+                                    @Html.ActionLink(linkText: "Neighbourhood",
+                                                     actionName: "Search",
+                                                     routeValues: new
+                                                     {
+                                                         page = 1,
+                                                         StartDate = Model.StartDate,
+                                                         EndDate = Model.EndDate,
+                                                         SortOrder = sortOrder,
+                                                         SortBy = sortBy,
+                                                         Offences = Model.Offences,
+                                                         Neighbourhoods = Model.Neighbourhoods
+                                                     });
+                                }
+                            </th>
+
+                            <th>Hundred Block</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.OffenceDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CrimeType.Type)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Neighbourhood.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.HundredBlock)</td>
+                                <td>@Html.ActionLink("Details", "Details", new { id = item.ID })</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
+
+                @Html.PagedListPager(Model.Items, page => Url.Action(actionName: "Search",
+                                                            controllerName: "Home",
+                            routeValues: new
+                            {
+                                page,
+                                StartDate = Model.StartDate,
+                                EndDate = Model.EndDate,
+                                SortOrder = Model.SortOrder,
+                                SortBy = Model.SortBy,
+                                Offences = Model.Offences,
+                                Neighbourhoods = Model.Neighbourhoods
+                            }))
+            </div>
+        } <!-- TotalRecordCount > 0 -->
+    </div>
+</div>
+
+
+
