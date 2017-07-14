@@ -5,13 +5,15 @@
 
 
 <style>
-    #map_canvas img {
+
+    #map {
+        border: 2px solid #000000;
+        height: 500px;
+    }
+
+    #map img {
         max-width: none;
     }
-</style>
-
-<!-- This css is to give a nice big popup "info window" when a marker is clicked on the map -->
-<style>
     .infoDiv {
         height: 200px;
         width: 300px;
@@ -20,7 +22,7 @@
     }
 </style>
 
-
+<!-- This css is to give a nice big popup "info window" when a marker is clicked on the map -->
 
 <!-- Enclose the Javascript in a "section" so that it is rendered in the correct order after scripts have been loaded etc -->
 @section scripts {
@@ -36,12 +38,13 @@
 
                 // Google has tweaked their interface somewhat - this tells the api to use that new UI
                 google.maps.visualRefresh = true;
-                var location = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
+                var theLocation = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
+
 
                 // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
                 var mapOptions = {
                     zoom: 15,
-                    center: location,
+                    center: theLocation,
                     mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP,
                     styles: [{
                         "elementType": "geometry", "stylers": [{ "hue": "#ff4400" }, { "saturation": -68 },
@@ -68,7 +71,8 @@
                 };
 
                 // This makes the div with id "map_canvas" a google map
-                var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
 
                 // a sample list of JSON encoded data of places to visit in Tunisia
                 // you can either make up a JSON list server side, or call it from a controller using JSONResult
@@ -84,8 +88,6 @@
                 var data = [
                           { "Id": 1, "PlaceName": "@Model.Crime.Neighbourhood.Name", "GeoLong": "@Model.Longitude", "GeoLat": "@Model.Latitude" }
                        ];
-
-
 
 
                 $.each(data, function (i, item) {
@@ -112,7 +114,6 @@
                     //google.maps.event.addListener(marker, 'click', function () {
                     //    infowindow.open(map, marker);
                     //});
-
                 })
             }
         </script>
@@ -158,13 +159,8 @@
         </div>
 
         <div class="panel panel-primary">
-            <div class="panel-heading">
-                <div class="panel-title">
-                </div>
-            </div>
             <div class="panel-body">
-                <!-- This is the div that will contain the Google Map -->
-                <div id="map_canvas" style="height: 550px;"></div>
+                <div id="map-canvas" style="height: 550px;"></div>
             </div>
         </div>
     </div>
