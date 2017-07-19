@@ -65,6 +65,8 @@ namespace YvrCrimeData_Web.Controllers
                     viewModel = new SearchViewModel();
                 }
 
+                ViewBag.Title = "YVR Crime Data";
+
                 viewModel.PageHeading = "Search Crimes";
 
                 // Get the Date Range

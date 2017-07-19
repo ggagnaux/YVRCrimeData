@@ -22,10 +22,15 @@ namespace YvrCrimeData_Web.ViewModels
             Descending
         }
 
-        private DateTime DefaultStartDate = new DateTime(2013, 1, 1, 0, 0, 0);
-        private DateTime DefaultEndDate = new DateTime(2013, 1, 31, 0, 0, 0);
+        private DateTime DefaultStartDate = new DateTime(2003, 1, 1, 0, 0, 0);
+        private DateTime DefaultEndDate = new DateTime(2003, 1, 31, 0, 0, 0);
 
         public bool FormVisibility { get; set; }
+
+
+        [Display(Name = "Start Phrase")]
+        public string SearchPhrase { get; set; }
+
 
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }

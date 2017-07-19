@@ -1,4 +1,5 @@
 ﻿body {
+    background-color: rgb(218, 218, 218);
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -29,14 +30,10 @@ textarea {
 
 /* Bootstrap Customizations */
 
-body {
-    background-color: rgb(218, 218, 218);
-}
-
 
 table,
 .table {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .panel-title {

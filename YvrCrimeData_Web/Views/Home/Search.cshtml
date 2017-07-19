@@ -9,7 +9,7 @@
 @using (Html.BeginForm(actionName: "Search", 
                        controllerName: "Home", 
                        method: FormMethod.Post, 
-                       htmlAttributes: new { @class = "form-horizontal" }))
+                       htmlAttributes: new { @class = "form-horizontal", id = "searchform"}))
 {
     <div class="panel-group">
         <div class="panel panel-primary">
@@ -57,6 +57,18 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SearchPhrase, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(model => model.SearchPhrase, new { @Value = Model.SearchPhrase, @class = "form-control" })
+                                </div>
+                            </div>
+                        </div> <!-- panel-body -->
+                    </div> <!-- panel panel-default -->
+
 
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong>@Model.LabelDictionary["OffenceTypes"]</strong></div>
@@ -141,7 +153,7 @@
                                             orientation: "auto"
                                         });
                                     </script>
-                                </div> <!-- table -->
+                                </div> <!-- column -->
                             </div> <!-- form-group -->
                         </div> <!-- panel-body -->
                     </div> <!-- panel panel-default -->
@@ -150,13 +162,14 @@
 
                     <div class="form-group">
                         <div class="col-sm-10">
-                            <button type = "submit" class="btn btn-primary btn-sm">Search</button>
+                            <button id="submit" type = "submit" class="btn btn-primary btn-sm">Search</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @Html.Hidden("page", null, new { id = "page" })
 }
 
 <div class="panel-group">
@@ -263,22 +276,58 @@
                     </tbody>
                 </table>
             </div>
-            <div class="panel-footer">
+            <div class="panel-footer" id="pager">
                 Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
 
+                
                 @Html.PagedListPager(Model.Items, page => Url.Action(actionName: "Search",
                                                             controllerName: "Home",
-                            routeValues: new
-                            {
-                                page,
-                                StartDate = Model.StartDate,
-                                EndDate = Model.EndDate,
-                                SortOrder = Model.SortOrder,
-                                SortBy = Model.SortBy,
-                                Offences = Model.Offences,
-                                Neighbourhoods = Model.Neighbourhoods
-                            }))
+                                                            routeValues: new
+                                                            {
+                                                                page,
+                                                                StartDate = Model.StartDate,
+                                                                EndDate = Model.EndDate,
+                                                                SortOrder = Model.SortOrder,
+                                                                SortBy = Model.SortBy,
+                                                                Offences = Model.Offences,
+                                                                Neighbourhoods = Model.Neighbourhoods
+                                                            }))
             </div>
+
+
+            <script type="text/javascript">
+                $(function () {
+                    $("#submit").click(function () {
+                        document.forms[0].submit();
+                        return false;
+                    });
+                });
+
+                $(function () {
+                    $('#pager a').click(function () {
+                        // get the url of the page link
+                        var url = this.href;
+
+                        //var page = ... extract the page parameter from the page link
+                        //var page = $("#specificLink").attr("href").match(/page=([0-9]+)/)[1];
+                        var page = url.match(/page=([0-9]+)/)[1];
+
+                        // update a hidden field inside the search form with this value
+                        $('#page').val(page);
+
+                        // trigger the search
+                        //$('#searchform').submit();
+
+                        $("form").submit(function (event) {
+                            eval($(this).attr("onsubmit"));
+                            return false;
+                        });
+
+                        // stop the link from navigating to the url it is pointing to
+                        return false;
+                    });
+                });
+            </script>
         } <!-- TotalRecordCount > 0 -->
     </div>
 </div>
