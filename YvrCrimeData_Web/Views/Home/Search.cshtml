@@ -27,12 +27,14 @@
                                     $('#OpenClosePanel').tooltip();
                                     @if (@Model.FormVisibility)
                                     {
-                                        @:$('#collapse1').collapse('show');
+                                        @*@:$('#collapse1').collapse('show');*@
+                                        @:$('#collapse1').addClass('in');
                                         @:$('#ShowHideFormIcon').addClass('fa-chevron-up').removeClass('fa-chevron-down');
                                     }
                                     else
                                     {
-                                        @:$('#collapse1').collapse('hide');
+                                        @:$('#collapse1').removeClass('in');
+                                        @*@:$('#collapse1').collapse('hide');*@
                                         @:$('#ShowHideFormIcon').addClass('fa-chevron-down').removeClass('fa-chevron-up');
                                     }
                                 });
@@ -55,9 +57,10 @@
                     </div>
                 </div>
             </div>
-            <div id="collapse1" class="panel-collapse collapse in">
+            <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
 
+                    <!--
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="form-group">
@@ -66,9 +69,9 @@
                                     @Html.TextBoxFor(model => model.SearchPhrase, new { @Value = Model.SearchPhrase, @class = "form-control" })
                                 </div>
                             </div>
-                        </div> <!-- panel-body -->
-                    </div> <!-- panel panel-default -->
-
+                        </div>
+                    </div>
+                    -->
 
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong>@Model.LabelDictionary["OffenceTypes"]</strong></div>
@@ -162,7 +165,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-10">
-                            <button id="submit" type = "submit" class="btn btn-primary btn-sm">Search</button>
+                            <button id="submit" type="submit" class="btn btn-primary btn-sm">Search</button>
                         </div>
                     </div>
                 </div>
@@ -170,6 +173,8 @@
         </div>
     </div>
     @Html.Hidden("page", null, new { id = "page" })
+    @Html.Hidden("SortBy", null, new { id = "SortBy" })
+    @Html.Hidden("SortOrder", null, new { id = "SortOrder" })
 }
 
 <div class="panel-group">
@@ -184,7 +189,7 @@
     }
         <div class="panel-heading">
             <h4 class="panel-title">
-                @Model.LabelDictionary["OutputSectionTitle"]
+                @Model.LabelDictionary["OutputSectionTitle"] [@Model.LabelDictionary["PageXOfY"]]
                 <span class="pull-right">@Model.LabelDictionary["RecordsFound"]</span>
             </h4>
         </div>
@@ -192,7 +197,7 @@
         @if (Model.Items.TotalItemCount > 0)
         {
             <div class="panel-body">
-                <table class="table table-hover table-striped table-responsive table-bordered">
+                <table class="table table-hover table-striped table-responsive table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th>
@@ -212,7 +217,8 @@
                                                 SortBy = sortBy,
                                                 Offences = Model.Offences,
                                                 Neighbourhoods = Model.Neighbourhoods
-                                            });
+                                            }, 
+                                            htmlAttributes: new { id = "sortByDate" });
                                 }
                             </th>
 
@@ -233,7 +239,8 @@
                                                          SortBy = sortBy,
                                                          Offences = Model.Offences,
                                                          Neighbourhoods = Model.Neighbourhoods
-                                                     });
+                                                     },
+                                                     htmlAttributes: new { id = "sortByOffence" });  
                                 }
                             </th>
 
@@ -254,7 +261,8 @@
                                                          SortBy = sortBy,
                                                          Offences = Model.Offences,
                                                          Neighbourhoods = Model.Neighbourhoods
-                                                     });
+                                                     },
+                                                     htmlAttributes: new { id = "sortByNeighbourhood" });
                                 }
                             </th>
 
@@ -277,9 +285,6 @@
                 </table>
             </div>
             <div class="panel-footer" id="pager">
-                Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
-
-                
                 @Html.PagedListPager(Model.Items, page => Url.Action(actionName: "Search",
                                                             controllerName: "Home",
                                                             routeValues: new
@@ -297,36 +302,59 @@
 
             <script type="text/javascript">
                 $(function () {
-                    $("#submit").click(function () {
-                        document.forms[0].submit();
-                        return false;
-                    });
-                });
-
-                $(function () {
                     $('#pager a').click(function () {
                         // get the url of the page link
                         var url = this.href;
 
-                        //var page = ... extract the page parameter from the page link
-                        //var page = $("#specificLink").attr("href").match(/page=([0-9]+)/)[1];
-                        var page = url.match(/page=([0-9]+)/)[1];
+                        // Get the page number
+                        var pageNumber = url.match(/page=([0-9]+)/)[1];
 
                         // update a hidden field inside the search form with this value
-                        $('#page').val(page);
+                        $('#page').val(pageNumber);
 
-                        // trigger the search
-                        //$('#searchform').submit();
+                        // Programmatically click the 'submit' button 
+                        // to submit the form.
+                        $('#submit').click();
 
-                        $("form").submit(function (event) {
-                            eval($(this).attr("onsubmit"));
-                            return false;
-                        });
+                        // stop the link from navigating to the url it is pointing to
+                        return false;
+                    });
+
+
+                    $('th a').click(function () {
+                        // get the url of the page link
+                        var url = this.href;
+                        var urlParams = parseQueryString(url);
+
+                        $('#page').val(1);
+
+                        var sortBy = urlParams["SortBy"];
+                        var sortOrder = urlParams["SortOrder"];
+
+                        // update a hidden field inside the search form with this value
+                        $('#SortBy').val(sortBy);
+                        $('#SortOrder').val(sortOrder);
+
+                        // Programmatically click the 'submit' button 
+                        // to submit the form.
+                        $('#submit').click();
 
                         // stop the link from navigating to the url it is pointing to
                         return false;
                     });
                 });
+
+                var parseQueryString = function (url) {
+                    var urlParams = {};
+                    url.replace(
+                        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                        function ($0, $1, $2, $3) {
+                            urlParams[$1] = $3;
+                        }
+                    );
+                    return urlParams;
+                }
+
             </script>
         } <!-- TotalRecordCount > 0 -->
     </div>

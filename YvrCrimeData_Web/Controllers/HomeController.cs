@@ -168,6 +168,10 @@ namespace YvrCrimeData_Web.Controllers
                 viewModel.LabelDictionary.Add("RecordsFound", MakeRecordsFoundLabel(totalRecordCount));
                 viewModel.LabelDictionary.Add("SearchAndFilterOptions", "Search & Filter Options");
 
+                var currentPage = viewModel.Items.PageCount < viewModel.Items.PageNumber ? 0 : viewModel.Items.PageNumber;
+                viewModel.LabelDictionary.Add("PageXOfY", $"Page {currentPage} of {viewModel.Items.PageCount}");
+
+
                 return View("Search", viewModel);
             }
             catch (Exception e)
