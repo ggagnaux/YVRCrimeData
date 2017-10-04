@@ -18,9 +18,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace YvrCrimeData_Web.Utilities
 {
@@ -334,14 +331,13 @@ namespace YvrCrimeData_Web.Utilities
         public double[] convertMGRUTMToLatLong(String mgrutm)
         {
             double[] latlon = { 0.0, 0.0 };
-            // 02CNR0634657742
-            int zone = Convert.ToInt32(mgrutm.Substring(0, 2)); //Integer.parseInt(mgrutm.substring(0, 2));
+            int zone = Convert.ToInt32(mgrutm.Substring(0, 2)); 
             String latZone = mgrutm.Substring(2, 3);
 
             String digraph1 = mgrutm.Substring(3, 4);
             String digraph2 = mgrutm.Substring(4, 5);
-            easting = Convert.ToDouble(mgrutm.Substring(5, 10)); // Double.parseDouble(mgrutm.Substring(5, 10));
-            northing = Convert.ToDouble(mgrutm.Substring(10, 15));// Double.parseDouble(mgrutm.Substring(10, 15));
+            easting = Convert.ToDouble(mgrutm.Substring(5, 10)); 
+            northing = Convert.ToDouble(mgrutm.Substring(10, 15));
 
             LatZones lz = new LatZones();
             double latZoneDegree = lz.getLatZoneDegree(latZone);
@@ -585,57 +581,11 @@ namespace YvrCrimeData_Web.Utilities
             {
                 digraph1.Add(x, LetterArray[x-1]);
             }
-            //digraph1.Add(1, "A");
-            //digraph1.Add(2, "B");
-            //digraph1.Add(3, "C");
-            //digraph1.Add(4, "D");
-            //digraph1.Add(5, "E");
-            //digraph1.Add(6, "F");
-            //digraph1.Add(7, "G");
-            //digraph1.Add(8, "H");
-            //digraph1.Add(9, "J");
-            //digraph1.Add(10, "K");
-            //digraph1.Add(11, "L");
-            //digraph1.Add(12, "M");
-            //digraph1.Add(13, "N");
-            //digraph1.Add(14, "P");
-            //digraph1.Add(15, "Q");
-            //digraph1.Add(16, "R");
-            //digraph1.Add(17, "S");
-            //digraph1.Add(18, "T");
-            //digraph1.Add(19, "U");
-            //digraph1.Add(20, "V");
-            //digraph1.Add(21, "W");
-            //digraph1.Add(22, "X");
-            //digraph1.Add(23, "Y");
-            //digraph1.Add(24, "Z");
 
             for (var x = 0; x < digraph2Array.Length; x++)
             {
                 digraph2.Add(x, digraph2Array[x]);
             }
-
-            //digraph2.put(new Integer(0), "V");
-            //digraph2.put(new Integer(1), "A");
-            //digraph2.put(new Integer(2), "B");
-            //digraph2.put(new Integer(3), "C");
-            //digraph2.put(new Integer(4), "D");
-            //digraph2.put(new Integer(5), "E");
-            //digraph2.put(new Integer(6), "F");
-            //digraph2.put(new Integer(7), "G");
-            //digraph2.put(new Integer(8), "H");
-            //digraph2.put(new Integer(9), "J");
-            //digraph2.put(new Integer(10), "K");
-            //digraph2.put(new Integer(11), "L");
-            //digraph2.put(new Integer(12), "M");
-            //digraph2.put(new Integer(13), "N");
-            //digraph2.put(new Integer(14), "P");
-            //digraph2.put(new Integer(15), "Q");
-            //digraph2.put(new Integer(16), "R");
-            //digraph2.put(new Integer(17), "S");
-            //digraph2.put(new Integer(18), "T");
-            //digraph2.put(new Integer(19), "U");
-            //digraph2.put(new Integer(20), "V");
         }
 
         public int getDigraph1Index(String letter)
@@ -671,7 +621,6 @@ namespace YvrCrimeData_Web.Utilities
 
             double a3 = easting;
             double a4 = a2 + ((int)(a3 / 100000)) - 1;
-            //return (String)digraph1.get(new Integer((int)Math.Floor(a4)));
             return (String)digraph1[Math.Floor(a4)];
 
         }
@@ -689,7 +638,6 @@ namespace YvrCrimeData_Web.Utilities
                 a4 = a4 + 19;
             }
 
-            //return (String)digraph2.get(new Integer((int)Math.Floor(a4)));
             return (String)digraph2[Math.Floor(a4)];
         }
 
@@ -719,7 +667,6 @@ namespace YvrCrimeData_Web.Utilities
 
         public int getLatZoneDegree(String letter)
         {
-            //char ltr = letter.charAt(0);
             char ltr = letter.ToCharArray()[0];
             for (int i = 0; i < arrayLength; i++)
             {
@@ -794,7 +741,6 @@ namespace YvrCrimeData_Web.Utilities
                     latIndex = posLetters.Length - 1;
                 }
 
-                //return String.valueOf(posLetters[latIndex]);
                 return Convert.ToString(posLetters[latIndex]);
             }
             else
@@ -803,9 +749,7 @@ namespace YvrCrimeData_Web.Utilities
                 {
                     latIndex = negLetters.Length - 1;
                 }
-                //return String.valueOf(negLetters[latIndex]);
                 return Convert.ToString(negLetters[latIndex]);
-
             }
         }
     }

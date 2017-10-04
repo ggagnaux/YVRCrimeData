@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using YvrCrimeData_Web.Models;
 using PagedList;
 using YvrCrimeData_Web.DAL.Repositories;
-using YvrCrimeData_Web.DAL.Interfaces;
-using YvrCrimeData_Web.Utilities;
+using YvrCrimeData_Web.Models;
+using YvrCrimeData_Web.Services;
 using YvrCrimeData_Web.ViewModels;
 
 namespace YvrCrimeData_Web.Controllers
 {
     public class HomeController : Controller
     {
+        private CrimeServices _crimeServices = null;
+
         private CrimeRepository _repository = null;
         private CrimeTypeRepository _crimeTypeRepository = null;
         private NeighbourhoodRepository _neighbourhoodRepository = null;
@@ -23,6 +23,9 @@ namespace YvrCrimeData_Web.Controllers
         public HomeController()
         {
             YvrCrimeDataContext context = new YvrCrimeDataContext();
+
+
+
             this._repository = new CrimeRepository(context);
             this._crimeTypeRepository = new CrimeTypeRepository(context);
             this._neighbourhoodRepository = new NeighbourhoodRepository(context);
